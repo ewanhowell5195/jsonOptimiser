@@ -243,4 +243,4 @@ for await (const file of getFiles(dir[1])) {
   console.log(`After: ${formatBytes(after)}\n\n`)
 }
 
-console.log(`-----\n\nCompressed ${fileCount} files\nBefore: ${formatBytes(beforeTotal)}\nAfter: ${formatBytes(afterTotal)}`)
+console.log(`-----\n\nCompressed ${fileCount} files\nBefore: ${formatBytes(beforeTotal)}\nAfter: ${formatBytes(afterTotal)}\nSaved: ${formatBytes(beforeTotal - afterTotal)}`)
