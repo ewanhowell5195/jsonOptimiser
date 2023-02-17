@@ -4,11 +4,18 @@ import path from "node:path"
 import fs from "node:fs"
 
 const p = spawn("powershell.exe", [`
-  Add-Type -AssemblyName System.Windows.Forms
-  $f = new-object Windows.Forms.FolderBrowserDialog
-  $f.rootfolder = "ApplicationData"
-  [void]$f.ShowDialog()
-  $f
+  Add-Type -AssemblyName system.Windows.Forms
+  $SetBackupLocation = New-Object System.Windows.Forms.SaveFileDialog
+  $SetBackupLocation.InitialDirectory = [Environment]::GetFolderPath('ApplicationData') + '\\.minecraft\\resourcepacks'
+  $SetBackupLocation.Title = 'Select Folder - Enter a folder so it is selected and then click on Save'
+  $SetBackupLocation.FileName = 'Select Folder'
+  $rc = $SetBackupLocation.ShowDialog()
+  if ($rc -eq [System.Windows.Forms.DialogResult]::OK)
+  {
+    $BackupLocation = $SetBackupLocation.FileName
+    $BackupLocation = $BackupLocation.Replace('Select Folder', "")
+  }
+  echo $BackupLocation
 `])
 
 let data = ""
@@ -16,13 +23,22 @@ for await (const chunk of p.stdout) {
   data += chunk
 }
 
-const dir = data.match(/^SelectedPath\s*:\s(.+)$/m)
+const dir = data.trim()
 
 if (!dir) process.exit()
 
+if (dir.includes("�")) {
+  const p = spawn("powershell.exe", [`
+    Add-Type -AssemblyName PresentationCore,PresentationFramework
+    [System.Windows.MessageBox]::Show('Unicode path detected. This program does not support unicode file paths. Please rename the folder to remove any unicode characters.')
+  `])
+  for await (const chunk of p.stdout) {}
+  process.exit()
+}
+
 const p2 = spawn("powershell.exe", [`
   Add-Type -AssemblyName PresentationFramework
-  [System.Windows.MessageBox]::Show('Are you sure you want to run JSON Optimiser over this folder:\n\n${dir[1]}', 'Confirmation', 'YesNo');
+  [System.Windows.MessageBox]::Show('Are you sure you want to run JSON Optimiser over this folder:\n\n${dir}', 'Confirmation', 'YesNo');
 `])
 
 let data2 = ""
@@ -103,7 +119,7 @@ modelKeys.push(...partKeys)
 let beforeTotal = 0
 let afterTotal = 0
 let fileCount = 0
-for await (const file of getFiles(dir[1])) {
+for await (const file of getFiles(dir)) {
   if (!(file.endsWith(".json") || file.endsWith(".mcmeta") || file.endsWith(".jem") || file.endsWith(".jpm"))) continue
   fileCount++
   const before = (await fs.promises.stat(file)).size
