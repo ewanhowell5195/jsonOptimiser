@@ -122,7 +122,7 @@ for await (const file of getFiles(dir)) {
     console.log(`Skipping ${file} as it could not be read`)
     continue
   }
-  // data = data.replace(/(type=item\n?|minecraft:)/g, "")
+  data = data.replace(/(type=item\n?|minecraft:)/g, "")
   data = data.replace(/matchItems/g, "items")
   await fs.promises.writeFile(file, data.trim(), "utf-8")
   const after = (await fs.promises.stat(file)).size
