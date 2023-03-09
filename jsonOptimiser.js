@@ -120,6 +120,7 @@ let beforeTotal = 0
 let afterTotal = 0
 let fileCount = 0
 for await (const file of getFiles(dir)) {
+  if (file.includes(".git")) continue
   if (!(file.endsWith(".json") || file.endsWith(".mcmeta") || file.endsWith(".jem") || file.endsWith(".jpm"))) continue
   fileCount++
   const before = (await fs.promises.stat(file)).size
