@@ -5,17 +5,16 @@ import fs from "node:fs"
 
 const p = spawn("powershell.exe", [`
   Add-Type -AssemblyName system.Windows.Forms
-  $SetBackupLocation = New-Object System.Windows.Forms.SaveFileDialog
-  $SetBackupLocation.InitialDirectory = [Environment]::GetFolderPath('ApplicationData') + '\\.minecraft\\resourcepacks'
-  $SetBackupLocation.Title = 'Select Folder - Enter a folder so it is selected and then click on Save'
-  $SetBackupLocation.FileName = 'Select Folder'
-  $rc = $SetBackupLocation.ShowDialog()
+  $f = New-Object System.Windows.Forms.SaveFileDialog
+  $f.InitialDirectory = [Environment]::GetFolderPath('ApplicationData') + '\\.minecraft\\resourcepacks'
+  $f.Title = 'Select Folder - Enter a folder so it is selected and then click on Save'
+  $f.FileName = 'Select Folder'
+  $rc = $f.ShowDialog()
   if ($rc -eq [System.Windows.Forms.DialogResult]::OK)
   {
-    $BackupLocation = $SetBackupLocation.FileName
-    $BackupLocation = $BackupLocation.Replace('Select Folder', "")
+    $fn = $f.FileName.Replace('Select Folder', "")
   }
-  echo $BackupLocation
+  echo $fn
 `])
 
 let data = ""
