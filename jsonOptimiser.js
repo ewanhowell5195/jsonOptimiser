@@ -1,51 +1,18 @@
-import { spawn } from "node:child_process"
+import { openDirectory, confirm } from "easy-file-dialogs"
 import { loadImage } from "skia-canvas"
 import path from "node:path"
 import fs from "node:fs"
 
-const p = spawn("powershell.exe", [`
-  Add-Type -AssemblyName system.Windows.Forms
-  $f = New-Object System.Windows.Forms.SaveFileDialog
-  $f.InitialDirectory = [Environment]::GetFolderPath('ApplicationData') + '\\.minecraft\\resourcepacks'
-  $f.Title = 'Select Folder - Enter a folder so it is selected and then click on Save'
-  $f.FileName = 'Select Folder'
-  $rc = $f.ShowDialog()
-  if ($rc -eq [System.Windows.Forms.DialogResult]::OK)
-  {
-    $fn = $f.FileName.Replace('Select Folder', "")
-  }
-  echo $fn
-`])
+const dir = await openDirectory({
+  title: "Select resource pack",
+  initialDir: `${process.env.APPDATA}/.minecraft/resourcepacks`
+}).catch(() => {})
 
-let data = ""
-for await (const chunk of p.stdout) {
-  data += chunk
-}
-
-const dir = data.trim()
-
-if (!dir) process.exit()
-
-if (dir.includes("�")) {
-  const p = spawn("powershell.exe", [`
-    Add-Type -AssemblyName PresentationCore,PresentationFramework
-    [System.Windows.MessageBox]::Show('Unicode path detected. This program does not support unicode file paths. Please rename the folder to remove any unicode characters.')
-  `])
-  for await (const chunk of p.stdout) {}
-  process.exit()
-}
-
-const p2 = spawn("powershell.exe", [`
-  Add-Type -AssemblyName PresentationFramework
-  [System.Windows.MessageBox]::Show('Are you sure you want to run JSON Optimiser over this folder:\n\n${dir}', 'Confirmation', 'YesNo');
-`])
-
-let data2 = ""
-for await (const chunk of p2.stdout) {
-  data2 += chunk
-}
-
-if (data2.trim() === "No") process.exit()
+if (!(await confirm({
+  title: "Run JSON Optimiser?",
+  message: `Are you sure you want to run JSON Optimiser over this folder:\n\n${dir}`,
+  warning: true
+}))) process.exit()
 
 const getFiles = async function*(dir) {
   const dirents = await fs.promises.readdir(dir, { withFileTypes: true })

@@ -1,6 +1,7 @@
 {
   "type": "module",
   "dependencies": {
+    "easy-file-dialogs": "^1.0.1",
     "skia-canvas": "^1.0.1"
   }
 }
