@@ -1,2 +1,2 @@
-node jsonOptimiser.js
+node index.js
 pause
