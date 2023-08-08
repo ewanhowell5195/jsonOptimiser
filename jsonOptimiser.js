@@ -6,7 +6,7 @@ import fs from "node:fs"
 const dir = await openDirectory({
   title: "Select resource pack",
   initialDir: `${process.env.APPDATA}/.minecraft/resourcepacks`
-}).catch(() => {})
+}).catch(() => process.exit())
 
 if (!(await confirm({
   title: "Run JSON Optimiser?",

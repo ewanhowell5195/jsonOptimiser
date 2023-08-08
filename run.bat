@@ -1,0 +1,2 @@
+node jsonOptimiser.js
+pause
