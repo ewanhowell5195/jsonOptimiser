@@ -1,14 +1,14 @@
 # jsonOptimiser
 ### Optimise the JSON files in a Minecraft Resource Pack
 
-jsonOptimiser is a program that will go through all JSON files in a Minecraft resource pack and optimise them to be as small as possible, removing any unessesary data.
+jsonOptimiser is a program that will go through all JSON files in a Minecraft resource pack and optimise them to be as small as possible, removing any unnecessary data.
 
 This process is one-way and cannot be undone, so make a backup if you want a version with untouched json files.
 
 ## Changes:
 - Minifies JSON files
 - Removes default credits. Custom credits are kept.
-- Removes unessesary keys
+- Removes unnecessary keys
 - Block/Items models
   - Remove `groups`
   - `rotation`
