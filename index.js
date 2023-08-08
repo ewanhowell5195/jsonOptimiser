@@ -158,11 +158,6 @@ for await (const file of getFiles(dir)) {
         const img = await loadImage(file.slice(0, -7))
         if (data.animation.height === img.width) delete data.animation.height
       }
-      if (data.animation.width && data.animation.height) {
-        const img = await loadImage(file.slice(0, -7))
-        if (data.animation.width === img.width) delete data.animation.width
-        if (data.animation.height === img.height) delete data.animation.height
-      }
       if (data.animation.frames) {
         const frametime = data.animation.frametime ?? 1
         data.animation.frames = data.animation.frames.map(e => {
