@@ -15,7 +15,6 @@ if %errorlevel% neq 0 (
     ) else (
         echo Node.js is already installed.
     )
-
     echo Installing Node.js modules...
     npm install
     echo Script completed.
