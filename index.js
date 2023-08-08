@@ -150,13 +150,13 @@ for await (const file of getFiles(dir)) {
       }
       if (data.animation.interpolate === false) delete data.animation.interpolate
       if (data.animation.frametime === 1) delete data.animation.frametime
-      if (data.animation.height) {
-        const img = await loadImage(file.slice(0, -7))
-        if (data.animation.height === img.width) delete data.animation.height
-      }
       if (data.animation.width) {
         const img = await loadImage(file.slice(0, -7))
         if (data.animation.width === img.height) delete data.animation.width
+      }
+      if (data.animation.height) {
+        const img = await loadImage(file.slice(0, -7))
+        if (data.animation.height === img.width) delete data.animation.height
       }
       if (data.animation.frames) {
         const frametime = data.animation.frametime ?? 1
