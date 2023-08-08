@@ -32,13 +32,13 @@ This process is one-way and cannot be undone, so make a backup if you want a ver
     - Change most common `time` to be the `frametime` and make old `frametime` into `time`
 - OptiFine CEM
   - Remove `animations` when it is empty
-  - Removes `translation` when all axes are `0`
-  - Removes `rotation` when all axes are `0`
-  - Removes `scale` when it is set to `1`
-  - Removes empty `boxes`
-  - Removes empty `sprites`
-  - Removes empty `submodel`
-  - Removes empty `submodels`
+  - Remove `translation` when all axes are `0`
+  - Remove `rotation` when all axes are `0`
+  - Remove `scale` when it is set to `1`
+  - Remove empty `boxes`
+  - Remove empty `sprites`
+  - Remove empty `submodel`
+  - Remove empty `submodels`
 
 ## Installing
 How to install this program:
