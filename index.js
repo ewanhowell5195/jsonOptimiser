@@ -71,7 +71,7 @@ function processPart(part, rootMode) {
   }
 }
 
-const mcmetaKeys = [ "credit", "animation", "villager", "texture", "pack", "language", "filter", "overlays" ]
+const mcmetaKeys = [ "credit", "animation", "villager", "texture", "pack", "language", "filter", "overlays", "gui" ]
 const animationKeys = [ "interpolate", "width", "height", "frametime", "frames" ]
 const jemKeys = [ "credit", "texture", "textureSize", "shadowSize", "models" ]
 const modelKeys = [ "model", "id", "part", "attach", "scale", "animations" ]
@@ -142,7 +142,7 @@ for await (const file of getFiles(dir)) {
     }
     if (data.pack) {
       for (const key in data.pack) {
-        if (!(key === "pack_format" || key === "supported_formats " || key === "description")) delete data.pack[key]
+        if (!(key === "pack_format" || key === "supported_formats" || key === "description")) delete data.pack[key]
       }
     } else if (data.animation) {
       for (const key in data.animation) {
